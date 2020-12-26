@@ -1,0 +1,249 @@
+<!-- {% if section.settings.message %}
+  <style>
+    {% if section.settings.logo != blank %}
+      .site-header__logo-image {
+        max-width: {{ section.settings.logo_max_width | escape }}px;
+      }
+    {% endif %}
+
+    {% if section.settings.align_logo == 'left' %}
+      .site-header__logo-image {
+        margin: 0;
+      }
+    {% endif %}
+  </style>
+{% endif %} -->
+
+<div data-section-id="{{ section.id }}" data-section-type="header-section" data-header-section>
+
+  <header>
+    <div class="header_content">
+      <div class="header_top">
+        {% include 'header-top' %}
+      </div>
+
+    
+    <div class="header_btm">
+      <div class="wrapper">
+
+      <div class="main_logo float_left">
+
+          {% if section.settings.logo %}
+            <a href="{{ routes.root_url }}" class="site-header__logo-image" data-image-loading-animation>
+              <!-- <img class="lazyload js"
+                   src="{{ section.settings.logo }}"
+                   alt="{{ shop.name }}"
+                   style="max-width: {{ section.settings.logo_max_width }}px"> -->
+              <img src="{{ section.settings.logo | img_url: '205x' }}"
+              alt="{{ shop.name }}"
+              style="max-width: {{ section.settings.logo_max_width }}px">
+            </a>
+          {% else %}
+            <a class="site-header__logo-link" href="{{ routes.root_url }}">{{ shop.name }}</a>
+          {% endif %}
+        
+      </div>
+
+      <div class="header_details float_right">
+
+        <div class="header_search">
+          <!-- <form method="get" action="/search">
+              <input type="text" name="q" />
+              <input  type="submit" value="Search" />
+          </form> -->
+
+          <form action="{{ routes.search_url }}" method="get" role="search">
+              <input type="text" name="q" placeholder="{{ 'general.search.placeholder' | t }}"/>
+              <input type="submit" name="search" class="form_btn">
+          </form>
+
+
+        </div>
+
+        <div class="header_menu">
+
+          <ul class="header_list">
+            <li class="header_list_item"><small class="header_icons"></small><span>My Favorite</span><a href="">Wishlist</a></li>
+            <li class="header_list_item"><small class="header_icons"></small><span>My Account</span><a href="">Log in</a> <q>|</q> <a href="">Sign up</a></li>
+            <li class="header_list_item"><small class="header_icons"></small><i>{{ cart.item_count }}</i><span>My Cart</span><a href="{{ routes.cart_url }}">{{ cart.total_price | money }}</a></li>
+          </ul>
+
+          <!-- <a href="{{ routes.account_url }}" >test1</a>
+          <a href="{{ routes.account_login_url }}" >test2</a> -->
+
+          <!-- <button type="button" class="btn--link site-header__icon">
+            {% include 'icon-search' %}
+            <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
+          </button> -->
+
+          <!--Search Drawer-->
+
+          <!-- <div id="SearchDrawer" class="search-bar drawer drawer--top critical-hidden" role="dialog" aria-modal="true" aria-label="{{ 'general.search.placeholder' | t }}" data-predictive-search-drawer>
+            <div class="search-bar__interior">
+              <div class="search-form__container" data-search-form-container>
+                <form class="search-form search-bar__form" action="{{ routes.search_url }}" method="get" role="search">
+                  <div class="search-form__input-wrapper">
+                    <input
+                      type="text"
+                      name="q"
+                      placeholder="{{ 'general.search.placeholder' | t }}"
+                      role="combobox"
+                      aria-autocomplete="list"
+                      aria-owns="predictive-search-results"
+                      aria-expanded="false"
+                      aria-label="{{ 'general.search.placeholder' | t }}"
+                      aria-haspopup="listbox"
+                      class="search-form__input search-bar__input"
+                      data-predictive-search-drawer-input
+                    />
+                    <input type="hidden" name="options[prefix]" value="last" aria-hidden="true" />
+                    <div class="predictive-search-wrapper predictive-search-wrapper--drawer" data-predictive-search-mount="drawer"></div>
+                  </div>
+          
+                  <button class="search-bar__submit search-form__submit"
+                    type="submit"
+                    data-search-form-submit>
+                    {% include 'icon-search' %}
+                    <span class="icon__fallback-text">{{ 'general.search.submit' | t }}</span>
+                  </button>
+                </form>
+          
+                <div class="search-bar__actions">
+                  <button type="button" class="btn--link search-bar__close js-drawer-close">
+                    {% include 'icon-close' %}
+                    <span class="icon__fallback-text">{{ 'general.search.close' | t }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          
+          <!--Search Drawer-->
+
+          <!-- {% if shop.customer_accounts_enabled %}
+            {% if customer %}
+              <a href="{{ routes.account_url }}" class="site-header__icon site-header__account">
+                {% include 'icon-login' %}
+                <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
+              </a>
+            {% else %}
+              <a href="{{ routes.account_login_url }}" class="site-header__icon site-header__account">
+                {% include 'icon-login' %}
+                <span class="icon__fallback-text">{{ 'layout.customer.log_in' | t }}</span>
+              </a>
+            {% endif %}
+          {% endif %} -->
+
+          <!-- <a href="{{ routes.cart_url }}" class="site-header__icon site-header__cart">
+            {% include 'icon-cart' %}
+            <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+            <div id="CartCount" class="site-header__cart-count{% if cart.item_count == 0 %} hide{% endif %} critical-hidden" data-cart-count-bubble>
+              <span data-cart-count>{{ cart.item_count }}</span>
+              <span class="icon__fallback-text medium-up--hide">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
+            </div>
+          </a>
+
+          {% unless linklists[section.settings.main_linklist] == blank %}
+            <button type="button" class="btn--link site-header__icon site-header__menu js-mobile-nav-toggle mobile-nav--open" aria-controls="MobileNav"  aria-expanded="false" aria-label="{{ 'layout.navigation.menu' | t }}">
+              {% include 'icon-hamburger' %}
+              {% include 'icon-close' %}
+            </button>
+          {% endunless %} -->
+
+        </div>
+
+      </div><!--Header Details-->
+      <div class="clearfix"></div>
+
+    </div><!--Header Wrapper-->
+  </div><!--Header Bottom-->
+  </div><!--Header Content-->
+  </header>
+  
+
+</div>
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": {{ shop.name | json }},
+  {% if section.settings.logo %}
+    {% assign image_size = section.settings.logo.width | append:'x' %}
+    "logo": {{ section.settings.logo | img_url: image_size | prepend: "https:" | json }},
+  {% endif %}
+  "sameAs": [
+    {{ settings.social_twitter_link | json }},
+    {{ settings.social_facebook_link | json }},
+    {{ settings.social_pinterest_link | json }},
+    {{ settings.social_instagram_link | json }},
+    {{ settings.social_tumblr_link | json }},
+    {{ settings.social_snapchat_link | json }},
+    {{ settings.social_youtube_link | json }},
+    {{ settings.social_vimeo_link | json }}
+  ],
+  "url": {{ shop.url | append: page.url | json }}
+}
+</script>
+
+{% if request.page_type == 'index' %}
+  {% assign potential_action_target = shop.url | append: routes.search_url | append: "?q={search_term_string}" %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ shop.url | append: page.url | json }}
+    }
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Main Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Custom logo width",
+      "min": 50,
+      "max": 250,
+      "step": 5,
+      "unit": "px",
+      "default": 205
+    },
+    {
+      "type": "header",
+      "content": "Fav icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "favicon_enable",
+      "label": "Use a custom icon",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "favicon",
+      "label": "Favicon image",
+      "info": "Will be scaled down to 32 x 32px"
+    }
+  ]
+}
+{% endschema %}
